@@ -37,7 +37,7 @@ export function pendulumStrip({ current, previous, bands, currentLabel = 'this e
 export function forecastChart(container, axisKey, highlightYear) {
   const ax = AXES.find((a) => a.key === axisKey);
   const m = pendulum()[axisKey];
-  const W = 340, H = 170, padL = 30, padR = 12, padT = 12, padB = 24;
+  const W = 340, H = 176, padL = 12, padR = 12, padT = 16, padB = 28;
   const x0 = FIT_FROM - 8, x1 = 2090;
   const X = (yr) => padL + ((yr - x0) / (x1 - x0)) * (W - padL - padR);
   const Y = (v) => padT + ((1 - v) / 2) * (H - padT - padB);
@@ -54,8 +54,8 @@ export function forecastChart(container, axisKey, highlightYear) {
   container.innerHTML = `<svg class="fchart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(ax.neg)} to ${esc(ax.pos)} over time with forecast band">
     <line x1="${padL}" x2="${W - padR}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--ink-3)" stroke-width="1"/>
     <line x1="${padL}" x2="${W - padR}" y1="${Y(1)}" y2="${Y(1)}" stroke="var(--line)"/><line x1="${padL}" x2="${W - padR}" y1="${Y(-1)}" y2="${Y(-1)}" stroke="var(--line)"/>
-    <text x="${padL - 6}" y="${Y(1) + 4}" text-anchor="end" class="plabel">${esc(ax.pos)}</text>
-    <text x="${padL - 6}" y="${Y(-1) + 4}" text-anchor="end" class="plabel">${esc(ax.neg)}</text>
+    <text x="${padL + 3}" y="${Y(1) - 3}" text-anchor="start" class="plabel on">▲ ${esc(ax.pos)}</text>
+    <text x="${padL + 3}" y="${Y(-1) + 11}" text-anchor="start" class="plabel on">▼ ${esc(ax.neg)}</text>
     <path d="${band}" fill="var(--pos)" opacity="0.16"/>
     <path d="${curve}" fill="none" stroke="var(--ink-2)" stroke-width="2"/>
     <line x1="${X(PRESENT).toFixed(1)}" x2="${X(PRESENT).toFixed(1)}" y1="${padT}" y2="${H - padB}" stroke="var(--chronos)" stroke-width="1" opacity="0.7"/>
