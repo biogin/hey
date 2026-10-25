@@ -1,12 +1,14 @@
 // SVG charts for the dossier panel: the need-pendulum strip and the forecast time series.
-import { AXES, HISTORICAL, PRESENT, YEAR_MIN, YEAR_MAX } from '../data/epochs.js';
+import { PRESENT } from '../data/epochs.js';
 import { pendulum, FIT_FROM } from '../data/forecast.js';
+import { t, tAxes, tAxis } from '../i18n/index.js';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = (v) => (v >= 0 ? '+' : '') + v.toFixed(2);
 
 // Five bipolar rows. `current` and `previous` are axis objects (-1..1); `bands` optional {key: ±}.
-export function pendulumStrip({ current, previous, bands, currentLabel = 'this epoch', previousLabel = 'previous epoch' }) {
+export function pendulumStrip({ current, previous, bands, currentLabel = '', previousLabel = '' }) {
+  const AXES = tAxes();
   const W = 320, rowH = 34, padL = 74, padR = 74, top = 10;
   const H = top + AXES.length * rowH + 26;
   const cx = padL + (W - padL - padR) / 2, half = (W - padL - padR) / 2;
@@ -18,7 +20,7 @@ export function pendulumStrip({ current, previous, bands, currentLabel = 'this e
     const b = bands?.[ax.key];
     const col = v >= 0 ? 'var(--pos)' : 'var(--neg)';
     rows += `<g class="prow" data-axis="${ax.key}">
-      <title>${esc(ax.neg)} ↔ ${esc(ax.pos)}: ${fmt(v)}${b != null ? ' ± ' + b.toFixed(2) : ''}${previous ? ' (previous ' + fmt(previous[ax.key]) + ')' : ''}</title>
+      <title>${esc(ax.neg)} ↔ ${esc(ax.pos)}: ${fmt(v)}${b != null ? ' ± ' + b.toFixed(2) : ''}${previous ? ' (' + t('chart.previous') + ' ' + fmt(previous[ax.key]) + ')' : ''}</title>
       <line x1="${padL}" x2="${W - padR}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1"/>
       <line x1="${cx}" x2="${cx}" y1="${y - 9}" y2="${y + 9}" stroke="var(--ink-3)" stroke-width="1"/>
       ${b != null ? `<rect x="${Math.min(x(v - b), x(v + b)).toFixed(1)}" y="${y - 7}" width="${Math.abs(x(v + b) - x(v - b)).toFixed(1)}" height="14" fill="${col}" opacity="0.18" rx="2"/>` : ''}
@@ -29,13 +31,13 @@ export function pendulumStrip({ current, previous, bands, currentLabel = 'this e
     </g>`;
   });
   const ly = H - 8;
-  const legend = `<g class="plegend"><rect x="${padL}" y="${ly - 7}" width="14" height="7" fill="var(--pos)" rx="2"/><text x="${padL + 19}" y="${ly}" class="plabel on">${esc(currentLabel)}</text>${previous ? `<circle cx="${padL + 130}" cy="${ly - 3.5}" r="4" fill="none" stroke="var(--ink-2)" stroke-width="1.5"/><text x="${padL + 139}" y="${ly}" class="plabel">${esc(previousLabel)}</text>` : bands ? `<rect x="${padL + 120}" y="${ly - 7}" width="14" height="7" fill="var(--pos)" opacity="0.25" rx="2"/><text x="${padL + 139}" y="${ly}" class="plabel">model ± 1σ</text>` : ''}</g>`;
-  return `<svg class="pendulum" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cultural need on five bipolar axes">${rows}${legend}</svg>`;
+  const legend = `<g class="plegend"><rect x="${padL}" y="${ly - 7}" width="14" height="7" fill="var(--pos)" rx="2"/><text x="${padL + 19}" y="${ly}" class="plabel on">${esc(currentLabel)}</text>${previous ? `<circle cx="${padL + 130}" cy="${ly - 3.5}" r="4" fill="none" stroke="var(--ink-2)" stroke-width="1.5"/><text x="${padL + 139}" y="${ly}" class="plabel">${esc(previousLabel)}</text>` : bands ? `<rect x="${padL + 120}" y="${ly - 7}" width="14" height="7" fill="var(--pos)" opacity="0.25" rx="2"/><text x="${padL + 139}" y="${ly}" class="plabel">${esc(t('chart.band'))}</text>` : ''}</g>`;
+  return `<svg class="pendulum" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(t('chart.aria.pendulum'))}">${rows}${legend}</svg>`;
 }
 
 // Time series of one axis: historical points, fitted pendulum, forecast band, hover crosshair.
 export function forecastChart(container, axisKey, highlightYear) {
-  const ax = AXES.find((a) => a.key === axisKey);
+  const ax = tAxis(axisKey);
   const m = pendulum()[axisKey];
   const W = 340, H = 176, padL = 12, padR = 12, padT = 16, padB = 28;
   const x0 = FIT_FROM - 8, x1 = 2090;
@@ -51,7 +53,7 @@ export function forecastChart(container, axisKey, highlightYear) {
   const pts = m.points.map((p) => `<circle cx="${X(p.t).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="4" fill="var(--pos)" stroke="var(--bg)" stroke-width="1.5"><title>${p.t}: ${fmt(p.y)}</title></circle>`).join('');
   const fy = highlightYear ? `<line x1="${X(highlightYear).toFixed(1)}" x2="${X(highlightYear).toFixed(1)}" y1="${padT}" y2="${H - padB}" stroke="var(--kairos)" stroke-dasharray="3 3"/><circle cx="${X(highlightYear).toFixed(1)}" cy="${Y(m.predict(highlightYear)).toFixed(1)}" r="5" fill="var(--kairos)" stroke="var(--bg)" stroke-width="1.5"/>` : '';
   const ticks = [1900, 1950, 2000, 2050, 2090].map((yr) => `<text x="${X(yr).toFixed(1)}" y="${H - 6}" text-anchor="middle" class="plabel">${yr}</text>`).join('');
-  container.innerHTML = `<svg class="fchart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(ax.neg)} to ${esc(ax.pos)} over time with forecast band">
+  container.innerHTML = `<svg class="fchart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(t('chart.aria.forecast', { neg: ax.neg, pos: ax.pos }))}">
     <line x1="${padL}" x2="${W - padR}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--ink-3)" stroke-width="1"/>
     <line x1="${padL}" x2="${W - padR}" y1="${Y(1)}" y2="${Y(1)}" stroke="var(--line)"/><line x1="${padL}" x2="${W - padR}" y1="${Y(-1)}" y2="${Y(-1)}" stroke="var(--line)"/>
     <text x="${padL + 3}" y="${Y(1) - 3}" text-anchor="start" class="plabel on">▲ ${esc(ax.pos)}</text>
@@ -59,13 +61,13 @@ export function forecastChart(container, axisKey, highlightYear) {
     <path d="${band}" fill="var(--pos)" opacity="0.16"/>
     <path d="${curve}" fill="none" stroke="var(--ink-2)" stroke-width="2"/>
     <line x1="${X(PRESENT).toFixed(1)}" x2="${X(PRESENT).toFixed(1)}" y1="${padT}" y2="${H - padB}" stroke="var(--chronos)" stroke-width="1" opacity="0.7"/>
-    <text x="${X(PRESENT) + 4}" y="${padT + 10}" class="plabel on">now</text>
+    <text x="${X(PRESENT) + 4}" y="${padT + 10}" class="plabel on">${esc(t('chart.now'))}</text>
     ${pts}${fy}${ticks}
     <g class="cross" opacity="0"><line y1="${padT}" y2="${H - padB}" stroke="var(--ink-2)" stroke-dasharray="2 3"/><circle r="4" fill="var(--ink)"/></g>
     <rect class="hit" x="${padL}" y="${padT}" width="${W - padL - padR}" height="${H - padT - padB}" fill="transparent"/>
   </svg>
   <div class="ftip" hidden></div>
-  <p class="fcap">Fitted period ${m.period.toFixed(0)} years, amplitude ${m.amplitude.toFixed(2)}, residual σ ${m.sigma.toFixed(2)}. Next turning point around ${Math.round(m.nextTurn)}. Points are the epochs since ${FIT_FROM}; the shaded cone is ±1σ widening with distance.</p>`;
+  <p class="fcap">${esc(t('chart.caption', { p: m.period.toFixed(0), a: m.amplitude.toFixed(2), s: m.sigma.toFixed(2), y: Math.round(m.nextTurn), from: FIT_FROM }))}</p>`;
   const svg = container.querySelector('svg'), cross = svg.querySelector('.cross'), tip = container.querySelector('.ftip'), hit = svg.querySelector('.hit');
   const move = (e) => {
     const rect = svg.getBoundingClientRect(); const px = ((e.clientX - rect.left) / rect.width) * W;

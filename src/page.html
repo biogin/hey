@@ -1,13 +1,13 @@
 <div id="app">
   <canvas id="gl" aria-label="Time machine viewport"></canvas>
-  <div id="noGL" class="nogl" hidden>This browser could not start WebGL. The dossier panel still works; the 3D view does not.</div>
+  <div id="noGL" class="nogl" hidden data-i18n="nogl"></div>
 
   <div id="hud">
     <header id="cluster" class="glass">
       <div class="odo-row">
         <div id="odometer" class="odo" aria-live="off"></div>
         <span id="odoFrac" class="odo-frac mono">.0</span>
-        <span id="odoEra" class="odo-era">CE</span>
+        <span id="odoEra" class="odo-era" data-i18n="era">CE</span>
       </div>
       <div class="mode-row">
         <span id="modeBadge" class="mode" data-mode="docked">DOCKED</span>
@@ -15,23 +15,24 @@
         <span id="eta" class="eta mono"></span>
       </div>
       <dl class="readouts mono">
-        <div><dt>v<sub>t</sub></dt><dd><span id="rv">0.0</span><small>yr/s</small></dd></div>
-        <div><dt>γ</dt><dd><span id="rg">1.000</span></dd></div>
-        <div><dt>Doppler</dt><dd><span id="rd">+0.00</span></dd></div>
-        <div><dt>Coherence</dt><dd><span id="rc">100%</span></dd></div>
-        <div><dt>Strain</dt><dd><span id="re">0.0</span></dd></div>
+        <div><dt data-i18n="hud.vt">v<sub>t</sub></dt><dd><span id="rv">0.0</span><small data-i18n="hud.unit.yrs">yr/s</small></dd></div>
+        <div><dt data-i18n="hud.gamma">γ</dt><dd><span id="rg">1.000</span></dd></div>
+        <div><dt data-i18n="hud.doppler">Doppler</dt><dd><span id="rd">+0.00</span></dd></div>
+        <div><dt data-i18n="hud.coherence">Coherence</dt><dd><span id="rc">100%</span></dd></div>
+        <div><dt data-i18n="hud.strain">Strain</dt><dd><span id="re">0.0</span></dd></div>
       </dl>
     </header>
 
     <nav id="topRight" class="toolbar">
-      <button id="soundBtn" class="btn ghost small" aria-pressed="false">Sound off</button>
-      <button id="theoryBtn" class="btn ghost small">Theory</button>
-      <button id="helpBtn" class="btn ghost small">Help</button>
-      <button id="fullBtn" class="btn ghost small" title="Fullscreen">⤢</button>
+      <select id="langSel" class="btn ghost small lang" aria-label="Language"></select>
+      <button id="soundBtn" class="btn ghost small" aria-pressed="false" data-i18n="btn.soundOff">Sound off</button>
+      <button id="theoryBtn" class="btn ghost small" data-i18n="btn.theory">Theory</button>
+      <button id="helpBtn" class="btn ghost small" data-i18n="btn.help">Help</button>
+      <button id="fullBtn" class="btn ghost small" data-i18n-title="btn.fullscreen" title="Fullscreen">⤢</button>
     </nav>
 
     <aside id="dock" class="glass hidden">
-      <button id="dockHandle" class="dock-handle" aria-label="Collapse or expand the dossier"><span></span></button>
+      <button id="dockHandle" class="dock-handle" data-i18n-aria="dock.handle" aria-label="Collapse or expand the dossier"><span></span></button>
       <div id="dockBody" class="dock-body"></div>
     </aside>
 
@@ -48,31 +49,32 @@
         </div>
       </div>
       <div class="controls">
-        <button id="prevEpoch" class="btn ghost small" title="Previous epoch ([)">◀</button>
-        <div id="throttle" class="throttle" title="Drag: thrust toward the past (left) or the future (right). Springs back to zero.">
-          <span class="th-label past">past</span>
+        <button id="prevEpoch" class="btn ghost small" data-i18n-title="btn.prev.title" title="Previous epoch ([)">◀</button>
+        <div id="throttle" class="throttle" data-i18n-title="th.title" title="Drag: thrust toward the past (left) or the future (right). Springs back to zero.">
+          <span class="th-label past" data-i18n="th.past">past</span>
           <div class="th-track"><div class="th-fill"></div><div id="throttleKnob" class="th-knob"></div></div>
-          <span class="th-label fut">future</span>
+          <span class="th-label fut" data-i18n="th.future">future</span>
         </div>
-        <button id="nextEpoch" class="btn ghost small" title="Next epoch (])">▶</button>
-        <button id="brakeBtn" class="btn small" title="Brake (space)">Brake</button>
-        <button id="dockBtn" class="btn small" title="Autopilot to the nearest epoch (enter)">Dock</button>
-        <button id="stopBtn" class="btn ghost small" hidden title="Cancel autopilot (esc)">Cancel</button>
+        <button id="nextEpoch" class="btn ghost small" data-i18n-title="btn.next.title" title="Next epoch (])">▶</button>
+        <button id="brakeBtn" class="btn small" data-i18n="btn.brake" data-i18n-title="btn.brake.title" title="Brake (space)">Brake</button>
+        <button id="dockBtn" class="btn small" data-i18n="btn.dock" data-i18n-title="btn.dock.title" title="Autopilot to the nearest epoch (enter)">Dock</button>
+        <button id="stopBtn" class="btn ghost small" hidden data-i18n="btn.cancel" data-i18n-title="btn.cancel.title" title="Cancel autopilot (esc)">Cancel</button>
       </div>
     </footer>
   </div>
 
   <div id="intro" class="overlay intro">
     <div class="intro-card">
-      <p class="eyebrow">A time machine through music epochs</p>
-      <h1 class="display">Kairos Engine</h1>
-      <p class="intro-lede serif">Chronos is the time you travel through. Kairos is the moment you arrive at: when someone's skill, their environment, and what the culture needed converge on one person, once.</p>
-      <p class="intro-body">Fly from the Baroque courts to the algorithm era and on into four forecast horizons. At every stop, the orrery shows the three forces that had to align, and the dossier names who stood in the beam.</p>
+      <div class="intro-lang"><select id="langSelIntro" class="btn ghost small lang" aria-label="Language"></select></div>
+      <p class="eyebrow" data-i18n="intro.eyebrow">A time machine through music epochs</p>
+      <h1 class="display" data-i18n="app.title">Kairos Engine</h1>
+      <p class="intro-lede serif" data-i18n="intro.lede"></p>
+      <p class="intro-body" data-i18n="intro.body"></p>
       <div class="intro-actions">
-        <button id="engage" class="btn primary">Engage drive, with sound</button>
-        <button id="engageQuiet" class="btn ghost">Engage silently</button>
+        <button id="engage" class="btn primary" data-i18n="intro.engage">Engage drive, with sound</button>
+        <button id="engageQuiet" class="btn ghost" data-i18n="intro.engageQuiet">Engage silently</button>
       </div>
-      <p class="intro-keys mono">drag to look · ← → thrust · space brake · enter dock · [ ] step epochs · scroll for impulse</p>
+      <p class="intro-keys mono" data-i18n="intro.keys"></p>
     </div>
   </div>
 
@@ -83,17 +85,17 @@
   <div id="help" class="overlay modal" hidden>
     <div class="modal-card glass small"><button class="close" data-close aria-label="Close">×</button>
       <div class="modal-body">
-        <p class="eyebrow">Controls</p>
-        <h2 class="display">Flying the drive</h2>
+        <p class="eyebrow" data-i18n="help.eyebrow">Controls</p>
+        <h2 class="display" data-i18n="help.title">Flying the drive</h2>
         <ul class="keys">
-          <li><kbd>←</kbd> <kbd>→</kbd> or drag the throttle: thrust toward the past or the future. Release and you coast.</li>
-          <li><kbd>space</kbd> or <b>Brake</b>: thrust against your motion until you stop.</li>
-          <li><kbd>enter</kbd> or <b>Dock</b>: autopilot to the nearest epoch.</li>
-          <li><kbd>[</kbd> <kbd>]</kbd>: autopilot to the previous or next epoch. Clicking the timeline does the same for any year.</li>
-          <li>Mouse wheel over the view: a velocity impulse. Drag the view to look around.</li>
-          <li><kbd>m</kbd> sound · <kbd>t</kbd> theory · <kbd>esc</kbd> cancel autopilot or close a panel.</li>
+          <li data-i18n="help.1"></li>
+          <li data-i18n="help.2"></li>
+          <li data-i18n="help.3"></li>
+          <li data-i18n="help.4"></li>
+          <li data-i18n="help.5"></li>
+          <li data-i18n="help.6"></li>
         </ul>
-        <p class="fine">Inside an epoch, select a Kairos case to align the orrery. Beyond 2026 the worlds flicker: that is the forecast uncertainty, rendered.</p>
+        <p class="fine" data-i18n="help.fine"></p>
       </div>
     </div>
   </div>

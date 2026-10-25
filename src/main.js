@@ -5,10 +5,12 @@ import { AudioEngine } from './audio/engine.js';
 import { UI } from './ui/ui.js';
 import { EPOCHS, HISTORICAL, epochAt, YEAR_MIN, YEAR_MAX, PRESENT } from './data/epochs.js';
 import { STYLES } from './data/styles.js';
+import { detectLang, setLang, onLangChange, t } from './i18n/index.js';
 
 const DOCK_RANGE = 5; // years from an epoch's span within which we count as "there"
 
 function boot() {
+  setLang(detectLang(), { persist: false });
   const canvas = document.getElementById('gl');
   const chronos = new Chronos(PRESENT);
   const audio = new AudioEngine();
@@ -52,12 +54,14 @@ function boot() {
   function init3D() {
     try {
       world = new World(canvas);
-      world.orrery.onLocked = (strength) => { if (strength > 0.5) audio.lockSound(); ui.toast(strength > 0.75 ? 'Kairos lock: skill, environment and need aligned.' : strength > 0.4 ? 'Partial alignment: one term is missing.' : 'No lock: the need was not there.'); };
+      world.orrery.onLocked = (strength) => { if (strength > 0.5) audio.lockSound(); ui.toast(strength > 0.75 ? t('toast.lock.full') : strength > 0.4 ? t('toast.lock.partial') : t('toast.lock.none')); };
     } catch (e) {
       console.error(e);
       document.getElementById('noGL').hidden = false;
     }
   }
+
+  onLangChange(() => ui.relocalize());
 
   // Keyboard
   window.addEventListener('keydown', (e) => {
@@ -127,7 +131,7 @@ function boot() {
 
     if (chronos.boundaryHit && chronos.boundaryHit !== lastBoundary) {
       lastBoundary = chronos.boundaryHit; audio.boundarySound();
-      ui.toast(chronos.year <= YEAR_MIN + 0.01 ? `Temporal boundary. The archive begins at ${YEAR_MIN}; the drive recoiled.` : `Forecast horizon. Beyond ${YEAR_MAX} the model has nothing; the drive recoiled.`);
+      ui.toast(chronos.year <= YEAR_MIN + 0.01 ? t('toast.boundary.past', { year: YEAR_MIN }) : t('toast.boundary.future', { year: YEAR_MAX }));
     }
 
     // Music ducks while moving; the drive drone rises

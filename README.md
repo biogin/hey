@@ -13,6 +13,10 @@ An interactive 3D time machine through music epochs, from the Baroque courts to 
 - **Procedural music.** Every epoch has a synthesized signature (swing brushes and walking bass, four-on-the-floor disco, gated-snare 1985, boom-bap, half-time 808s, sped-up 2020s pop, probabilistic patterns for the forecasts). No samples; all Web Audio.
 - **Everything procedural.** No external assets: primitives, shaders, and a 690 KB single HTML file.
 
+## Languages
+
+The interface and all content (18 epochs, 46 cases, theory, help) are available in English, Русский, Español, Deutsch, Français and Português. The language is detected from the browser, can be switched from the toolbar, and can be forced with a hash: `#ru`, `#es`, `#de`, `#fr`, `#pt`, `#en`. Translations live in `src/i18n/` (UI dictionaries in `ui/`, content in `content/`); the English content in `src/data/epochs.js` is the source of truth for structure and numbers.
+
 ## Run it
 
 ```

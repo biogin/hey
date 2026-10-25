@@ -32,10 +32,10 @@ export const EPOCHS = [
     axes: { sincerity: -0.4, communal: 0.6, body: -0.3, local: 0.6, rough: -0.7 },
     artists: [
       {
-        name: 'George Frideric Handel', year: 1742, place: 'London', status: 'locked',
+        name: 'George Frideric Handel', year: 1742, place: 'London and Dublin', status: 'locked',
         headline: 'The first composer to make the public, not the prince, his patron.',
         skill: 'Italian opera craft learned in Rome and Venice, plus an instinct for spectacle and the singable chorus.',
-        environment: 'London was the first city where music was a commercial business: subscription opera, then oratorio in theatres when opera went bankrupt.',
+        environment: 'London was Europe\'s most commercial music city: subscription opera, then oratorio in theatres when opera went bankrupt.',
         need: 'A rising Protestant middle class wanted grandeur in its own language, with a moral. Messiah (Dublin, 1742) gave them scripture as a blockbuster.',
         kairos: 'When Italian opera collapsed, Handel pivoted to English oratorio at the exact moment a new audience could pay for it.',
         fit: { skill: 0.95, env: 0.9, need: 0.9 },
@@ -74,13 +74,13 @@ export const EPOCHS = [
         skill: 'A prodigy trained on a decade of European tours; melody, opera characterization, and speed.',
         environment: 'Vienna after 1781: subscription concerts, piano students, publishers, Emperor Joseph II\'s open-minded court. Lorenzo Da Ponte for words.',
         need: 'Enlightenment Vienna wanted social satire with a human face. The Marriage of Figaro (1786) let servants outwit a count during the decade before the French Revolution.',
-        kairos: 'His lock held while the environment held. When the 1788 Turkish war pulled the aristocracy\'s money away, his concert series collapsed within two years.',
+        kairos: 'His lock held while the environment held. His subscription series had already lapsed after 1786; when the 1788 Turkish war pulled the aristocracy\'s money away, his 1789 attempt to revive it drew a single subscriber.',
         fit: { skill: 1.0, env: 0.8, need: 0.85 },
         note: 'Lesson: the lock can unlock. Environment is a variable, not a constant.',
       },
       {
         name: 'Joseph Haydn', year: 1791, place: 'Esterháza → London', status: 'locked',
-        headline: 'Thirty years in an isolated court, then a London superstar at 59.',
+        headline: 'Thirty years in an isolated court, then a London superstar at 58.',
         skill: 'He built the vocabulary of the symphony and string quartet with a resident orchestra to test every idea. "I was forced to become original."',
         environment: 'The Esterházy court\'s isolation protected him from fashion; then the impresario Salomon brought him to London\'s commercial concert halls in 1791.',
         need: 'London\'s paying public wanted big, witty, surprising symphonies. He wrote twelve for them, including the "Surprise."',
@@ -93,7 +93,7 @@ export const EPOCHS = [
     id: 'romantic', name: 'Romantic Virtuosos', short: 'Romantic', span: [1800, 1850], center: 1830,
     tagline: 'The genius as hero, the concert as weather.',
     need: 'After Napoleon, Europe wanted the heroic individual: feeling over reason, struggle over symmetry, the nation over the court. It needed artists to be saints and storms.',
-    environment: ['The iron-framed grand piano (Érard, Broadwood): louder, faster, tourable', 'Railways and a mass press make the touring star possible', 'Music publishing and the home piano create a middle-class audience', 'The solo recital invented (Liszt coined the word in 1840)'],
+    environment: ['The iron-framed grand piano (Érard, Broadwood): louder, faster, tourable', 'Railways and a mass press make the touring star possible', 'Music publishing and the home piano create a middle-class audience', 'The solo recital invented (the word first used for Liszt\'s London concerts, 1840)'],
     axes: { sincerity: 0.6, communal: -0.7, body: -0.5, local: 0.0, rough: -0.5 },
     artists: [
       {
@@ -180,9 +180,9 @@ export const EPOCHS = [
       },
       {
         name: 'Duke Ellington', year: 1927, place: 'Washington → Harlem', status: 'locked',
-        headline: 'The Cotton Club\'s radio wire made a local bandleader national overnight.',
+        headline: 'The Cotton Club\'s radio wire made a Harlem bandleader a national name.',
         skill: 'Composition for specific players; he wrote for the men, not the instruments.',
-        environment: 'A Harlem club with a nightly network radio broadcast, and a white clientele paying for sophisticated "jungle" exoticism.',
+        environment: 'A Harlem club with a weekly radio broadcast that went national by 1929, and a white clientele paying for sophisticated "jungle" exoticism.',
         need: 'Harlem Renaissance ambition and downtown curiosity wanted a Black composer who sounded like modern art.',
         kairos: 'A residency plus a transmitter: the first time a band\'s environment included the whole country.',
         fit: { skill: 0.95, env: 0.9, need: 0.8 },
@@ -201,7 +201,7 @@ export const EPOCHS = [
         headline: 'August 21, 1935: swing broke because of a time zone.',
         skill: 'Clarinet precision and the nerve to play Fletcher Henderson\'s hot Black arrangements with a white band on national radio.',
         environment: 'NBC\'s "Let\'s Dance" aired Goodman\'s hour after midnight in New York, which was prime time in California. West Coast teenagers had been listening for months.',
-        need: 'Depression youth wanted to dance hard. The East Coast tour was dying; the Palomar crowd exploded because they already knew the records.',
+        need: 'Depression youth wanted to dance hard. The cross-country tour was dying; the Palomar crowd exploded because they already knew the records.',
         kairos: 'Same band, same book, wrong city for weeks, then the right city. Environment was literally the clock.',
         fit: { skill: 0.9, env: 0.95, need: 0.9 },
       },
@@ -229,7 +229,7 @@ export const EPOCHS = [
     id: 'rocknroll', name: "Rock 'n' Roll", short: "Rock 'n' Roll", span: [1950, 1959], center: 1955,
     tagline: 'Teenagers get money, radios, and a sound their parents hate.',
     need: 'Identity. The first generation with the word "teenager" and disposable income wanted a culture that was not their parents\', with the body in it. In a segregated country, white radio needed a way to play Black rhythm and blues.',
-    environment: ['The 45 rpm single (1949) and the transistor radio (1954)', 'Independent labels: Sun, Chess, Specialty, Atlantic', 'Television and DJs like Alan Freed as national gatekeepers', 'Cars, drive-ins, and the baby boom reaching adolescence'],
+    environment: ['The 45 rpm single (1949) and the transistor radio (1954)', 'Independent labels: Sun, Chess, Specialty, Atlantic', 'Television and DJs like Alan Freed as national gatekeepers', 'Cars, drive-ins, and postwar prosperity trickling down to teenagers'],
     axes: { sincerity: 0.5, communal: 0.1, body: 0.9, local: 0.4, rough: 0.7 },
     artists: [
       {
@@ -272,7 +272,7 @@ export const EPOCHS = [
       {
         name: 'The Beatles', year: 1964, place: 'Liverpool → Hamburg → Ed Sullivan', status: 'locked',
         headline: 'February 9, 1964. 73 million viewers. A country in mourning wanted to smile.',
-        skill: 'Roughly 1,200 live performances, most of them long nights in Hamburg, before they had a hit. Two songwriters who competed, three-part harmony.',
+        skill: 'Roughly 1,200 live performances by 1964, some 280 of them marathon nights in Hamburg. Two songwriters who competed, three-part harmony.',
         environment: 'Liverpool was a port where sailors brought American records. Brian Epstein, George Martin at EMI, and Capitol finally promoting them in the US in December 1963.',
         need: 'The biggest cohort of 13-to-17-year-olds ever was ready; the nation was eleven weeks past Dallas; the radio needed joy.',
         kairos: 'Skill from Hamburg, an environment that had just opened a transatlantic TV channel, and a precise national mood. Any of the three missing and it is a good Liverpool band.',
@@ -280,7 +280,7 @@ export const EPOCHS = [
       },
       {
         name: 'The Supremes / Motown', year: 1964, place: 'Detroit', status: 'locked',
-        headline: 'Five consecutive number ones in the year of the Civil Rights Act.',
+        headline: 'Five straight number ones, the run starting the summer the Civil Rights Act was signed.',
         skill: 'Holland-Dozier-Holland songwriting and the Funk Brothers, a house band that played on more hits than anyone.',
         environment: 'Berry Gordy, who had worked a Lincoln-Mercury assembly line, built one for records: quality control, artist development, charm school.',
         need: 'A country legislating integration wanted an integrated pop mainstream. "The Sound of Young America" was the brand.',
@@ -326,7 +326,7 @@ export const EPOCHS = [
       },
       {
         name: 'Donna Summer & Giorgio Moroder', year: 1977, place: 'Munich', status: 'locked',
-        headline: '"I Feel Love": the first hit built entirely from a machine. Studio 54 opened the same spring.',
+        headline: '"I Feel Love": the first hit built almost entirely from a machine. Studio 54 opened the same spring.',
         skill: 'A voice that could float over anything, and a producer who could program a Moog to pulse like a heartbeat.',
         environment: 'Musicland Studios in Munich, the 12-inch single as a club format, and a New York nightlife at its peak.',
         need: 'Gay liberation-era dance floors wanted a machine-body future, euphoric and endless. Brian Eno told David Bowie it was the sound of the next fifteen years.',
@@ -335,7 +335,7 @@ export const EPOCHS = [
       },
       {
         name: 'Sex Pistols', year: 1976, place: 'London', status: 'locked',
-        headline: 'December 1, 1976: four minutes of swearing on teatime television. Skill was not the skill required.',
+        headline: 'December 1, 1976: two minutes of swearing on teatime television. Skill was not the skill required.',
         skill: 'Not virtuosity. Johnny Rotten\'s sloganeering, Steve Jones\'s wall of guitar, and Malcolm McLaren and Vivienne Westwood\'s design and provocation.',
         environment: 'Britain\'s IMF bailout year, youth unemployment, the SEX boutique, a weekly music press hungry for an enemy, and the Bill Grundy interview.',
         need: 'A generation looking at no future needed someone to say it out loud, ugly.',
@@ -348,7 +348,7 @@ export const EPOCHS = [
         headline: 'A German future that was not American rock. Hip-hop would need it again in 1982.',
         skill: 'Engineering as composition; they built their own instruments.',
         environment: 'A post-war German identity vacuum and a Düsseldorf art scene with no interest in blues.',
-        need: 'Europe wanted a modern sound of its own; then the Bronx wanted a machine beat, and "Planet Rock" (1982) sampled Trans-Europe Express.',
+        need: 'Europe wanted a modern sound of its own; then the Bronx wanted a machine beat, and "Planet Rock" (1982) replayed Trans-Europe Express on synthesizers.',
         kairos: 'Their Kairos fired twice, in two cultures, five years apart. The second time they were not even in the room.',
         fit: { skill: 0.9, env: 0.7, need: 0.85 },
       },
@@ -383,7 +383,7 @@ export const EPOCHS = [
         name: 'Run-DMC', year: 1986, place: 'Hollis, Queens', status: 'locked',
         headline: '"Walk This Way" with Aerosmith and a million-dollar Adidas deal: rap enters the suburbs.',
         skill: 'A hard, stripped delivery over drum machines, no disco band behind them.',
-        environment: 'Rick Rubin and Def Jam, MTV finally playing rap, and a Madison Square Garden show where the crowd held up their sneakers for an Adidas executive.',
+        environment: 'Rick Rubin and Russell Simmons of Def Jam (their own records came out on Profile), MTV finally playing rap, and a Madison Square Garden show where the crowd held up their sneakers for an Adidas executive.',
         need: 'Suburban America was ready for hip-hop if it came with a rock bridge. The Bronx had built the music a decade earlier.',
         kairos: 'The culture\'s need was thirteen years behind the invention (Kool Herc, 1973). Run-DMC stood where the gap closed.',
         fit: { skill: 0.85, env: 0.95, need: 0.9 },
@@ -417,7 +417,7 @@ export const EPOCHS = [
       },
       {
         name: 'Spice Girls', year: 1996, place: 'London', status: 'locked',
-        headline: '"Wannabe": Britpop had no girls in it, and nine-year-olds had money.',
+        headline: '"Wannabe": Britpop had few girls in it, and nine-year-olds had money.',
         skill: 'Five distinct personalities, a slogan ("Girl Power"), and a manager, Simon Fuller, who understood brands.',
         environment: 'End-of-history pop optimism, global TV, and a market gap: Britpop and gangsta rap had both ignored pre-teen girls.',
         need: 'A generation of girls wanted a gang of their own on the charts.',
@@ -430,7 +430,7 @@ export const EPOCHS = [
         skill: 'Mickey Mouse Club training: dance, camera presence, and a vocal tone Max Martin could build around.',
         environment: 'Cheiron Studios in Stockholm, Jive Records, and TRL, launched the month before the single.',
         need: 'The post-grunge sugar rebound: after a decade of sincerity, teenagers wanted the pendulum to swing back.',
-        kairos: 'Released into the last year recorded music would ever be worth more; a year later Napster arrived.',
+        kairos: 'Released at the all-time peak of CD revenue; a year later Napster arrived.',
         fit: { skill: 0.8, env: 1.0, need: 0.95 },
       },
     ],
@@ -439,7 +439,7 @@ export const EPOCHS = [
     id: 'y2k', name: 'The Download Decade', short: '2000s', span: [2000, 2009], center: 2005,
     tagline: 'The CD dies, the iPod wins, the label stops being the gate.',
     need: 'After 9/11 and during Iraq, both escapism and anger. The file-sharing generation wanted music free and everywhere. Indie wanted the real again; the recession at the end wanted neon spectacle.',
-    environment: ['Napster to iTunes (2003) to the iPod: music becomes personal and portable', 'MySpace (2004) and YouTube (2005): fans become distribution', 'Pro Tools, Auto-Tune, ringtones, American Idol', 'CD revenue collapses; touring and 360 deals replace it'],
+    environment: ['Napster to iTunes (2003) to the iPod: music becomes personal and portable', 'MySpace (2003) and YouTube (2005): fans become distribution', 'Pro Tools, Auto-Tune, ringtones, American Idol', 'CD revenue collapses; touring and 360 deals replace it'],
     axes: { sincerity: -0.3, communal: -0.6, body: 0.3, local: -0.4, rough: -0.4 },
     artists: [
       {
@@ -462,7 +462,7 @@ export const EPOCHS = [
       },
       {
         name: 'Arctic Monkeys', year: 2006, place: 'Sheffield → MySpace', status: 'locked',
-        headline: 'The fastest-selling debut in British chart history, built by fans ripping demo CDs to the internet.',
+        headline: 'The fastest-selling debut in British chart history at the time, built by fans ripping demo CDs to the internet.',
         skill: 'Alex Turner\'s observational lyrics about taxi ranks and nights out, delivered at speed.',
         environment: 'Demo CDs handed out at gigs, uploaded by fans to MySpace. The label arrived after the audience did.',
         need: 'British youth wanted a chronicler of their own nights, and the internet wanted proof it could make a star without permission.',
@@ -471,7 +471,7 @@ export const EPOCHS = [
       },
       {
         name: 'Lady Gaga', year: 2009, place: 'Lower East Side → Interscope', status: 'locked',
-        headline: '"Just Dance" hit number one three months after Lehman Brothers collapsed.',
+        headline: '"Just Dance" hit number one in the US four months after Lehman Brothers collapsed.',
         skill: 'A classically trained pianist and songwriter who treated pop as performance art.',
         environment: 'Lower East Side clubs, Akon\'s imprint at Interscope, YouTube, and the rise of dance-pop production.',
         need: 'Recession-era escapism wanted spectacle, and outsiders wanted a champion.',

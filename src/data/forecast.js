@@ -69,9 +69,8 @@ export function forecastVector(year) {
 
 export function describeDirection(key, year) {
   const m = pendulum()[key];
-  const ax = AXES.find((a) => a.key === key);
   const v = m.predict(year), s = m.slope(year);
-  const toward = s > 0 ? ax.pos : ax.neg;
-  const strength = Math.abs(v) > 0.45 ? 'strongly' : Math.abs(v) > 0.2 ? 'moderately' : 'near the center';
-  return { value: v, toward, strength, period: m.period, nextTurn: m.nextTurn };
+  // towardPos: the pendulum is currently moving toward the positive pole; strength is a band label.
+  const strength = Math.abs(v) > 0.45 ? 'strong' : Math.abs(v) > 0.2 ? 'moderate' : 'center';
+  return { value: v, towardPos: s > 0, strength, period: m.period, nextTurn: m.nextTurn };
 }
