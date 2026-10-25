@@ -1,11 +1,14 @@
 // The cultural pendulum model.
-// For each need axis we fit  y(t) = a + b·sin(ωt) + c·cos(ωt)  to the historical epochs,
-// searching the period 2π/ω on a grid. Forecasts extrapolate the fitted oscillation and
+// For each need axis we fit  y(t) = a + b·sin(ωt) + c·cos(ωt)  to the historical epochs from 1890 on
+// (the recorded-music era, where epochs are dense enough to resolve a cycle), searching the period
+// 2π/ω over a generational range (20 to 50 years; anything shorter would alias the ~10-year spacing). Forecasts extrapolate the fitted oscillation and
 // carry an uncertainty band that widens with distance from the last observation:
 //   σ(Δt) = σ_residual · sqrt(1 + (Δt / P)²)
 // Beyond about one period the band covers most of the axis, which is the model's own way of
 // saying it no longer knows. This is a toy, and it is labelled as one in the interface.
 import { AXES, HISTORICAL, PRESENT } from './epochs.js';
+
+export const FIT_FROM = 1890;
 
 function solve3(A, y) {
   // Least squares for 3 parameters via normal equations (3x3 Cramer's rule).
@@ -26,10 +29,10 @@ function solve3(A, y) {
 }
 
 export function fitAxis(key) {
-  const pts = HISTORICAL.map((e) => ({ t: e.center, y: e.axes[key] }));
-  // Weight recent epochs more: the pendulum we care about is the modern one.
+  const pts = HISTORICAL.filter((e) => e.center >= FIT_FROM).map((e) => ({ t: e.center, y: e.axes[key] }));
+  const context = HISTORICAL.filter((e) => e.center < FIT_FROM).map((e) => ({ t: e.center, y: e.axes[key] }));
   let best = null;
-  for (let P = 16; P <= 64; P += 0.5) {
+  for (let P = 20; P <= 50; P += 0.5) {
     const w = (2 * Math.PI) / P;
     const A = pts.map((p) => [1, Math.sin(w * p.t), Math.cos(w * p.t)]);
     const [a, b, c] = solve3(A, pts.map((p) => p.y));
@@ -46,7 +49,7 @@ export function fitAxis(key) {
   const slope = (t) => w * (best.b * Math.cos(w * t) - best.c * Math.sin(w * t));
   let turn = PRESENT, s0 = Math.sign(slope(PRESENT));
   for (let t = PRESENT; t < PRESENT + best.P; t += 0.25) { if (Math.sign(slope(t)) !== s0) { turn = t; break; } }
-  return { key, period: best.P, amplitude: amp, mean: best.a, sigma, predict, band, slope, nextTurn: turn, points: pts };
+  return { key, period: best.P, amplitude: amp, mean: best.a, sigma, predict, band, slope, nextTurn: turn, points: pts, context };
 }
 
 let cache = null;

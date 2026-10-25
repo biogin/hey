@@ -1,6 +1,6 @@
 // SVG charts for the dossier panel: the need-pendulum strip and the forecast time series.
 import { AXES, HISTORICAL, PRESENT, YEAR_MIN, YEAR_MAX } from '../data/epochs.js';
-import { pendulum } from '../data/forecast.js';
+import { pendulum, FIT_FROM } from '../data/forecast.js';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = (v) => (v >= 0 ? '+' : '') + v.toFixed(2);
@@ -38,7 +38,7 @@ export function forecastChart(container, axisKey, highlightYear) {
   const ax = AXES.find((a) => a.key === axisKey);
   const m = pendulum()[axisKey];
   const W = 340, H = 170, padL = 30, padR = 12, padT = 12, padB = 24;
-  const x0 = 1700, x1 = 2090;
+  const x0 = FIT_FROM - 8, x1 = 2090;
   const X = (yr) => padL + ((yr - x0) / (x1 - x0)) * (W - padL - padR);
   const Y = (v) => padT + ((1 - v) / 2) * (H - padT - padB);
   let curve = '', bandTop = '', bandBot = '';
@@ -50,7 +50,7 @@ export function forecastChart(container, axisKey, highlightYear) {
   const band = `${bandTop} ${bandBot} Z`;
   const pts = m.points.map((p) => `<circle cx="${X(p.t).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="4" fill="var(--pos)" stroke="var(--bg)" stroke-width="1.5"><title>${p.t}: ${fmt(p.y)}</title></circle>`).join('');
   const fy = highlightYear ? `<line x1="${X(highlightYear).toFixed(1)}" x2="${X(highlightYear).toFixed(1)}" y1="${padT}" y2="${H - padB}" stroke="var(--kairos)" stroke-dasharray="3 3"/><circle cx="${X(highlightYear).toFixed(1)}" cy="${Y(m.predict(highlightYear)).toFixed(1)}" r="5" fill="var(--kairos)" stroke="var(--bg)" stroke-width="1.5"/>` : '';
-  const ticks = [1700, 1800, 1900, 2000, 2090].map((yr) => `<text x="${X(yr).toFixed(1)}" y="${H - 6}" text-anchor="middle" class="plabel">${yr}</text>`).join('');
+  const ticks = [1900, 1950, 2000, 2050, 2090].map((yr) => `<text x="${X(yr).toFixed(1)}" y="${H - 6}" text-anchor="middle" class="plabel">${yr}</text>`).join('');
   container.innerHTML = `<svg class="fchart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(ax.neg)} to ${esc(ax.pos)} over time with forecast band">
     <line x1="${padL}" x2="${W - padR}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--ink-3)" stroke-width="1"/>
     <line x1="${padL}" x2="${W - padR}" y1="${Y(1)}" y2="${Y(1)}" stroke="var(--line)"/><line x1="${padL}" x2="${W - padR}" y1="${Y(-1)}" y2="${Y(-1)}" stroke="var(--line)"/>
@@ -65,7 +65,7 @@ export function forecastChart(container, axisKey, highlightYear) {
     <rect class="hit" x="${padL}" y="${padT}" width="${W - padL - padR}" height="${H - padT - padB}" fill="transparent"/>
   </svg>
   <div class="ftip" hidden></div>
-  <p class="fcap">Fitted period ${m.period.toFixed(0)} years, amplitude ${m.amplitude.toFixed(2)}, residual σ ${m.sigma.toFixed(2)}. Next turning point around ${Math.round(m.nextTurn)}. Points are the historical epochs; the shaded cone is ±1σ widening with distance.</p>`;
+  <p class="fcap">Fitted period ${m.period.toFixed(0)} years, amplitude ${m.amplitude.toFixed(2)}, residual σ ${m.sigma.toFixed(2)}. Next turning point around ${Math.round(m.nextTurn)}. Points are the epochs since ${FIT_FROM}; the shaded cone is ±1σ widening with distance.</p>`;
   const svg = container.querySelector('svg'), cross = svg.querySelector('.cross'), tip = container.querySelector('.ftip'), hit = svg.querySelector('.hit');
   const move = (e) => {
     const rect = svg.getBoundingClientRect(); const px = ((e.clientX - rect.left) / rect.width) * W;

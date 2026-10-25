@@ -150,7 +150,7 @@ export const STYLES = {
     ],
   },
   f10: {
-    sky: ['#ff6a1a', '#0a0208'], fog: '#2a0a10', ground: 'disc', groundColor: '#140608', groundAlt: '#ff9a3a',
+    sky: ['#c94f1c', '#0a0208'], fog: '#2a0a10', ground: 'disc', groundColor: '#140608', groundAlt: '#ff9a3a',
     primary: '#ffd27a', secondary: '#ff5a3a', accent: '#ffffff', ghost: 0.6,
     layers: [
       { shape: 'sphere', count: 220, arrange: 'halo', radius: 13, size: [0.08, 0.16], color: 'primary', material: 'neon', motion: 'pulse', height: 2, wave: true },

@@ -1,7 +1,7 @@
 // HUD, dossier panel, timeline console, throttle, overlays.
 import { EPOCHS, HISTORICAL, FORECASTS, AXES, YEAR_MIN, YEAR_MAX, PRESENT, OUTCOME_MATRIX } from '../data/epochs.js';
 import { pendulumStrip, forecastChart } from './charts.js';
-import { forecastVector, pendulum, describeDirection } from '../data/forecast.js';
+import { forecastVector, pendulum, describeDirection, FIT_FROM } from '../data/forecast.js';
 import { VMAX, AMAX } from '../engine/chronos.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -247,7 +247,7 @@ export class UI {
         <ul class="dirs">${dirs}</ul>
         <div class="axis-chips">${AXES.map((ax, i) => `<button class="chip-btn ${i === 0 ? 'on' : ''}" data-axis="${ax.key}">${esc(ax.pos)}</button>`).join('')}</div>
         <div id="fchart"></div>
-        <p class="fine">This is a toy: a sinusoid fitted to fourteen hand-scored epochs, extrapolated with a widening error cone. The written forecast above is an analyst's reading that uses the model as one input. Where they disagree, trust neither very much. Past ${Math.round(pendulum().sincerity.period * 1.5 + PRESENT)} the cone covers the whole axis, which is the model admitting it does not know.</p>
+        <p class="fine">This is a toy: a sinusoid fitted to the ${HISTORICAL.filter((x) => x.center >= FIT_FROM).length} hand-scored epochs since ${FIT_FROM}, with the period searched between 20 and 50 years, extrapolated with a widening error cone. The written forecast above is an analyst's reading that uses the model as one input. Where they disagree, trust neither very much. Past ${Math.round(pendulum().sincerity.period * 1.5 + PRESENT)} the cone covers the whole axis, which is the model admitting it does not know.</p>
       </section>`;
   }
 
@@ -279,7 +279,7 @@ export class UI {
       <h3>Why the window is short</h3>
       <p>The three terms move on different clocks. Skill accumulates slowly over years. Environment changes in steps when a technology or a gate opens. Need swings like a pendulum with a period of roughly a generation, because each cohort wants the opposite of what its older siblings had. The orrery in the scene shows this: a slow ring, a stepping ring, an oscillating ring. They align briefly.</p>
       <h3>The pendulum model</h3>
-      <p>Each epoch is scored on five bipolar axes. A sinusoid is fitted per axis to those scores with a period search, then extrapolated with an error cone. Fitted parameters:</p>
+      <p>Each epoch is scored on five bipolar axes. A sinusoid is fitted per axis to the epochs since ${FIT_FROM} (the recorded-music era, dense enough to resolve a cycle), with the period searched between 20 and 50 years, then extrapolated with an error cone. Fitted parameters:</p>
       <div class="table-wrap"><table class="matrix"><thead><tr><th>Axis</th><th>Period</th><th>Amplitude</th><th>Next turn</th></tr></thead><tbody>${periods}</tbody></table></div>
       <h3>What this leaves out</h3>
       <ul class="env">
