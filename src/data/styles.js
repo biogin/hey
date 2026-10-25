@@ -128,7 +128,7 @@ export const STYLES = {
     layers: [
       { shape: 'card', count: 60, arrange: 'tower', radius: 8, size: [0.5, 0.9], color: 'accent', material: 'matte', motion: 'scroll', height: 0 },
       { shape: 'octa', count: 100, arrange: 'scatter', radius: 12, size: [0.05, 0.18], color: 'secondary', material: 'neon', motion: 'flicker', height: 5, mixColor: 'primary' },
-      { shape: 'torus', count: 3, arrange: 'orbit', radius: 5, size: [2.2, 2.2], color: 'primary', material: 'wire', motion: 'orbit', height: 4 },
+      { shape: 'torus', count: 3, arrange: 'orbit', radius: 7, size: [1.4, 1.4], color: 'primary', material: 'wire', motion: 'orbit', height: 5 },
     ],
   },
   f1: {

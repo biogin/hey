@@ -76,6 +76,8 @@ export function buildEpochWorld(style, seed = 1) {
         case 'tower': { const col = i % 10, row = Math.floor(i / 10); const a = (col / 10) * Math.PI * 2; pos.set(Math.cos(a) * L.radius, row * 1.9 + rnd() * 0.5, Math.sin(a) * L.radius); rot.set(0, -a - Math.PI / 2, 0); scale.set(sz[1], sz[1], sz[1]); break; }
         case 'halo': { const a = u * Math.PI * 2; const r = L.radius + (i % 3) * 0.6; pos.set(Math.cos(a) * r, h0 + 4 + (i % 3) * 1.5, Math.sin(a) * r); const s2 = sz[0] + rnd() * (sz[1] - sz[0]); scale.set(s2, s2, s2); break; }
       }
+      // Keep the camera's sector clear: the rig sits at z ≈ 11.5 looking toward -z.
+      if (pos.z > 5 && Math.abs(pos.x) < 5) { pos.z = -pos.z; if (L.arrange === 'ring' || L.arrange === 'wall' || L.arrange === 'pillars') rot.y += Math.PI; }
       if (L.shape === 'card' && L.arrange !== 'tower') scale.set(sz[1] * 0.7, sz[1], 1);
       if (L.shape === 'bar') { scale.set(sz[0], sz[1], sz[0]); if (L.arrange !== 'pillars') pos.y = L.eq ? sz[1] / 2 : h0 + sz[1] / 2 - 1; }
       if (L.shape === 'disc' && L.arrange === 'orbit') rot.set(rnd() * 1.2, rnd() * 6, 0);
