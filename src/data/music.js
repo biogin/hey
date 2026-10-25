@@ -1,0 +1,165 @@
+// Procedural music signatures per epoch. No samples; everything is synthesized in the browser.
+// 16-step patterns ('x' = hit, '.' = rest, 'o' = accent/open). Notes are semitones relative to the key root.
+// Keys are MIDI numbers for the bass root (e.g. 38 = D2).
+
+const P = (s) => s.replace(/\s/g, '');
+
+export const MUSIC = {
+  baroque: {
+    bpm: 104, swing: 0, root: 38, scale: 'minor',
+    drums: {},
+    bass: { voice: 'harpsi', pattern: P('x...x...x...x...'), notes: [0, -5, -4, -2], octave: 0 },
+    chords: { voice: 'harpsi', every: 4, prog: [[0, 'm'], [-5, 'M'], [-4, 'M'], [-2, 'M']], arp: 'up16' },
+    lead: { voice: 'harpsi', style: 'arp', density: 0.9 },
+    fx: { reverb: 0.35 },
+  },
+  classical: {
+    bpm: 126, swing: 0, root: 36, scale: 'major',
+    drums: {},
+    bass: { voice: 'piano', pattern: P('x.x.x.x.x.x.x.x.'), notes: [0, 7, 4, 7, 0, 7, 4, 7], octave: 0, alberti: true },
+    chords: { voice: 'piano', every: 8, prog: [[0, 'M'], [5, 'M'], [7, 'M'], [0, 'M']], arp: 'none' },
+    lead: { voice: 'piano', style: 'melody', density: 0.6 },
+    fx: { reverb: 0.3 },
+  },
+  romantic: {
+    bpm: 66, swing: 0, root: 33, scale: 'minor',
+    drums: { kick: P('x...............'), },
+    bass: { voice: 'piano', pattern: P('x.......x.......'), notes: [0, -4], octave: -1 },
+    chords: { voice: 'piano', every: 8, prog: [[0, 'm'], [-4, 'M'], [-7, 'M'], [-2, 'M7']], arp: 'wide', rubato: 0.08 },
+    lead: { voice: 'piano', style: 'melody', density: 0.5, rubato: 0.06 },
+    fx: { reverb: 0.5, rumble: true },
+  },
+  ragtime: {
+    bpm: 112, swing: 0, root: 41, scale: 'major',
+    drums: {},
+    bass: { voice: 'piano', pattern: P('x.x.x.x.x.x.x.x.'), notes: [0, 7, 0, 7, 5, 12, 5, 12], octave: -1, oompah: true },
+    chords: { voice: 'piano', every: 2, prog: [[0, 'M'], [5, 'M'], [0, 'M'], [7, '7']], arp: 'none', offbeat: true },
+    lead: { voice: 'piano', style: 'rag', density: 0.85 },
+    fx: { reverb: 0.15, crackle: 0.5 },
+  },
+  jazzage: {
+    bpm: 190, swing: 0.3, root: 41, scale: 'blues',
+    drums: { hat: P('x.x.x.x.x.x.x.x.'), snare: P('....x.......x...'), kick: P('x.......x.......') , brush: true },
+    bass: { voice: 'upright', pattern: P('x...x...x...x...'), notes: [0, 4, 7, 9, 10, 9, 7, 4], octave: 0 },
+    chords: { voice: 'horns', every: 4, prog: [[0, '7'], [5, '7'], [0, '7'], [7, '7']], arp: 'stab', stabPattern: P('..x...x.....x...') },
+    lead: { voice: 'trumpet', style: 'solo', density: 0.7 },
+    fx: { reverb: 0.2, crackle: 0.7 },
+  },
+  swing: {
+    bpm: 168, swing: 0.3, root: 39, scale: 'major',
+    drums: { hat: P('x.x.x.x.x.x.x.x.'), snare: P('....x.......x...'), kick: P('x...x...x...x...'), brush: true, ride: true },
+    bass: { voice: 'upright', pattern: P('x...x...x...x...'), notes: [0, 4, 7, 9, 12, 9, 7, 4], octave: 0 },
+    chords: { voice: 'horns', every: 4, prog: [[0, 'M7'], [9, 'm7'], [2, 'm7'], [7, '7']], arp: 'stab', stabPattern: P('x.....x...x.....') },
+    lead: { voice: 'clarinet', style: 'solo', density: 0.8 },
+    fx: { reverb: 0.3, crackle: 0.4 },
+  },
+  rocknroll: {
+    bpm: 170, swing: 0.25, root: 40, scale: 'blues',
+    drums: { hat: P('x.x.x.x.x.x.x.x.'), snare: P('....x.......x...'), kick: P('x.....x.x.......') },
+    bass: { voice: 'pluck', pattern: P('x.x.x.x.x.x.x.x.'), notes: [0, 4, 7, 9, 10, 9, 7, 4], octave: 0 },
+    chords: { voice: 'guitar', every: 8, prog: [[0, '7'], [0, '7'], [5, '7'], [7, '7']], arp: 'strum', strumPattern: P('x.x.x.x.x.x.x.x.') },
+    lead: { voice: 'guitar', style: 'riff', density: 0.5 },
+    fx: { reverb: 0.15, slapback: 0.4 },
+  },
+  sixties: {
+    bpm: 128, swing: 0, root: 40, scale: 'major',
+    drums: { hat: P('x.x.x.x.x.x.x.x.'), snare: P('....x.......x...'), kick: P('x..x..x...x.x...'), tamb: P('..x...x...x...x.') },
+    bass: { voice: 'pluck', pattern: P('x..x..x.x..x..x.'), notes: [0, 0, 7, 5, 5, 4, 2, 0], octave: 0 },
+    chords: { voice: 'organ', every: 4, prog: [[0, 'M'], [5, 'M'], [9, 'm'], [7, 'M']], arp: 'hold' },
+    lead: { voice: 'jangle', style: 'melody', density: 0.6 },
+    fx: { reverb: 0.3 },
+  },
+  seventies: {
+    bpm: 118, swing: 0, root: 38, scale: 'minor',
+    drums: { kick: P('x...x...x...x...'), snare: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), open: P('..x...x...x...x.'), clap: P('....x.......x...') },
+    bass: { voice: 'saw', pattern: P('x.x.x.x.x.x.x.x.'), notes: [0, 12, 0, 12, 0, 12, 0, 12], octave: 0 },
+    chords: { voice: 'strings', every: 8, prog: [[0, 'm7'], [5, 'm7'], [-2, 'M7'], [-4, 'M7']], arp: 'hold' },
+    lead: { voice: 'funkgtr', style: 'scratch', density: 0.8 },
+    fx: { reverb: 0.3 },
+  },
+  mtv: {
+    bpm: 112, swing: 0, root: 36, scale: 'minor',
+    drums: { kick: P('x.....x.x.......'), snare: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), gated: true, clap: P('....x.......x...') },
+    bass: { voice: 'synth', pattern: P('x.x.x.x.x.x.x.x.'), notes: [0, 0, 0, 7, 0, 0, 10, 12], octave: 0 },
+    chords: { voice: 'dx7', every: 4, prog: [[0, 'm'], [8, 'M'], [10, 'M'], [5, 'm']], arp: 'stab', stabPattern: P('x.......x...x...') },
+    lead: { voice: 'bell', style: 'arp', density: 0.6 },
+    fx: { reverb: 0.5 },
+  },
+  nineties: {
+    bpm: 93, swing: 0.18, root: 38, scale: 'minor',
+    drums: { kick: P('x..x......x.x...'), snare: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), lofi: true },
+    bass: { voice: 'sub', pattern: P('x..x......x.x...'), notes: [0, 0, 3, 5, 0, 0, -2, 0], octave: 0 },
+    chords: { voice: 'guitar', every: 8, prog: [[0, 'm'], [-4, 'M'], [-2, 'M'], [0, 'm']], arp: 'power', strumPattern: P('x.......x.......'), distort: true },
+    lead: { voice: 'rhodes', style: 'melody', density: 0.35 },
+    fx: { reverb: 0.3, crackle: 0.5 },
+  },
+  y2k: {
+    bpm: 100, swing: 0, root: 37, scale: 'minor',
+    drums: { kick: P('x.....x...x.....'), clap: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), snap: P('..x...x...x...x.') },
+    bass: { voice: '808', pattern: P('x.....x...x.....'), notes: [0, 0, 0, 5, 0, 0, 3, 0], octave: 0 },
+    chords: { voice: 'pluck', every: 4, prog: [[0, 'm'], [3, 'M'], [8, 'M'], [10, 'M']], arp: 'up16' },
+    lead: { voice: 'autotune', style: 'melody', density: 0.5 },
+    fx: { reverb: 0.35 },
+  },
+  streaming: {
+    bpm: 140, swing: 0, root: 36, scale: 'minor', halftime: true,
+    drums: { kick: P('x......x..x.....'), snare: P('........x.......'), hat: P('x.x.x.xxx.x.x.xx'), roll: P('......x.......x.'), open: P('..............x.') },
+    bass: { voice: '808', pattern: P('x......x..x.....'), notes: [0, 0, 0, -2, 0, 0, 3, 0], octave: 0, glide: true },
+    chords: { voice: 'pad', every: 8, prog: [[0, 'm'], [8, 'M'], [3, 'M'], [10, 'M']], arp: 'hold' },
+    lead: { voice: 'whisper', style: 'melody', density: 0.4 },
+    fx: { reverb: 0.5 },
+  },
+  algorithm: {
+    bpm: 132, swing: 0, root: 40, scale: 'major',
+    drums: { kick: P('x...x...x...x...'), snare: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), clap: P('....x.......x...'), spedup: true },
+    bass: { voice: 'pluck', pattern: P('x..x..x...x..x..'), notes: [0, 0, 9, 9, 5, 5, 7, 7], octave: 0 },
+    chords: { voice: 'piano', every: 4, prog: [[0, 'M'], [9, 'm'], [5, 'M'], [7, 'M']], arp: 'none', offbeat: false },
+    lead: { voice: 'chipmunk', style: 'melody', density: 0.7 },
+    fx: { reverb: 0.4 },
+  },
+  f1: {
+    bpm: 96, swing: 0.1, root: 38, scale: 'dorian', probabilistic: 0.7,
+    drums: { kick: P('x.....x...x.....'), snare: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), brush: true, human: 0.02 },
+    bass: { voice: 'upright', pattern: P('x.....x...x.....'), notes: [0, 0, 3, 5, 7, 5, 3, 0], octave: 0 },
+    chords: { voice: 'guitar', every: 8, prog: [[0, 'm7'], [5, 'M7'], [-2, 'M7'], [3, 'M7']], arp: 'strum', strumPattern: P('x.....x.....x...') },
+    lead: { voice: 'whisper', style: 'melody', density: 0.5, human: 0.03 },
+    fx: { reverb: 0.45, room: true },
+  },
+  f5: {
+    bpm: 124, swing: 0, root: 36, scale: 'pent', probabilistic: 0.5,
+    drums: { kick: P('x...x...x...x...'), hat: P('..x...x...x...x.'), snap: P('....x.......x...'), roll: P('..............xx') },
+    bass: { voice: 'synth', pattern: P('x..x..x.x..x..x.'), notes: [0, 0, 7, 5, 0, 3, 7, 10], octave: 0, glide: true },
+    chords: { voice: 'pad', every: 8, prog: [[0, 'sus'], [5, 'sus'], [7, 'sus'], [3, 'sus']], arp: 'hold', mutate: true },
+    lead: { voice: 'bell', style: 'arp', density: 0.8, mutate: true },
+    fx: { reverb: 0.6 },
+  },
+  f10: {
+    bpm: 108, swing: 0, root: 38, scale: 'major', probabilistic: 0.35,
+    drums: { kick: P('x...x...x...x...'), snare: P('....x.......x...'), hat: P('x.x.x.x.x.x.x.x.'), clap: P('....x.......x...'), crowd: true },
+    bass: { voice: 'saw', pattern: P('x...x...x...x...'), notes: [0, 0, 5, 5, 7, 7, 9, 9], octave: 0 },
+    chords: { voice: 'choir', every: 4, prog: [[0, 'M'], [5, 'M'], [9, 'm'], [7, 'M']], arp: 'hold' },
+    lead: { voice: 'choir', style: 'anthem', density: 0.6 },
+    fx: { reverb: 0.8 },
+  },
+  f50: {
+    bpm: 48, swing: 0, root: 36, scale: 'lydian', probabilistic: 0.15,
+    drums: { heartbeat: P('x.x.............') },
+    bass: { voice: 'sub', pattern: P('x...............'), notes: [0, 7, 5, 2], octave: 0 },
+    chords: { voice: 'pad', every: 16, prog: [[0, 'M7'], [2, 'M7'], [7, 'sus'], [-5, 'M7']], arp: 'hold', breathe: true },
+    lead: { voice: 'glass', style: 'drift', density: 0.3 },
+    fx: { reverb: 0.95 },
+  },
+};
+
+export const SCALES = {
+  major: [0, 2, 4, 5, 7, 9, 11],
+  minor: [0, 2, 3, 5, 7, 8, 10],
+  dorian: [0, 2, 3, 5, 7, 9, 10],
+  lydian: [0, 2, 4, 6, 7, 9, 11],
+  blues: [0, 3, 5, 6, 7, 10],
+  pent: [0, 2, 4, 7, 9],
+};
+
+export const CHORD_SHAPES = {
+  M: [0, 4, 7], m: [0, 3, 7], '7': [0, 4, 7, 10], M7: [0, 4, 7, 11], m7: [0, 3, 7, 10], sus: [0, 5, 7], dim: [0, 3, 6],
+};

@@ -1,0 +1,100 @@
+<div id="app">
+  <canvas id="gl" aria-label="Time machine viewport"></canvas>
+  <div id="noGL" class="nogl" hidden>This browser could not start WebGL. The dossier panel still works; the 3D view does not.</div>
+
+  <div id="hud">
+    <header id="cluster" class="glass">
+      <div class="odo-row">
+        <div id="odometer" class="odo" aria-live="off"></div>
+        <span id="odoFrac" class="odo-frac mono">.0</span>
+        <span id="odoEra" class="odo-era">CE</span>
+      </div>
+      <div class="mode-row">
+        <span id="modeBadge" class="mode" data-mode="docked">DOCKED</span>
+        <span id="dirArrow" class="dir">● rest</span>
+        <span id="eta" class="eta mono"></span>
+      </div>
+      <dl class="readouts mono">
+        <div><dt>v<sub>t</sub></dt><dd><span id="rv">0.0</span><small>yr/s</small></dd></div>
+        <div><dt>γ</dt><dd><span id="rg">1.000</span></dd></div>
+        <div><dt>Doppler</dt><dd><span id="rd">+0.00</span></dd></div>
+        <div><dt>Coherence</dt><dd><span id="rc">100%</span></dd></div>
+        <div><dt>Strain</dt><dd><span id="re">0.0</span></dd></div>
+      </dl>
+    </header>
+
+    <nav id="topRight" class="toolbar">
+      <button id="soundBtn" class="btn ghost small" aria-pressed="false">Sound off</button>
+      <button id="theoryBtn" class="btn ghost small">Theory</button>
+      <button id="helpBtn" class="btn ghost small">Help</button>
+      <button id="fullBtn" class="btn ghost small" title="Fullscreen">⤢</button>
+    </nav>
+
+    <aside id="dock" class="glass hidden">
+      <button id="dockHandle" class="dock-handle" aria-label="Collapse or expand the dossier"><span></span></button>
+      <div id="dockBody" class="dock-body"></div>
+    </aside>
+
+    <div id="flashWrap" class="flash-wrap" aria-live="polite"><div id="flash" class="flash display"></div><div id="flashSub" class="flash-sub mono"></div></div>
+    <div id="toast" class="toast" hidden></div>
+
+    <footer id="console" class="glass">
+      <div id="timeline" class="timeline">
+        <div id="tlTicks" class="tl-ticks"></div>
+        <div id="tlTrack" class="tl-track">
+          <div id="tlMarkers" class="tl-markers"></div>
+          <div id="tlNeedle" class="tl-needle"></div>
+          <div id="tlLabel" class="tl-label mono" hidden></div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="prevEpoch" class="btn ghost small" title="Previous epoch ([)">◀</button>
+        <div id="throttle" class="throttle" title="Drag: thrust toward the past (left) or the future (right). Springs back to zero.">
+          <span class="th-label past">past</span>
+          <div class="th-track"><div class="th-fill"></div><div id="throttleKnob" class="th-knob"></div></div>
+          <span class="th-label fut">future</span>
+        </div>
+        <button id="nextEpoch" class="btn ghost small" title="Next epoch (])">▶</button>
+        <button id="brakeBtn" class="btn small" title="Brake (space)">Brake</button>
+        <button id="dockBtn" class="btn small" title="Autopilot to the nearest epoch (enter)">Dock</button>
+        <button id="stopBtn" class="btn ghost small" hidden title="Cancel autopilot (esc)">Cancel</button>
+      </div>
+    </footer>
+  </div>
+
+  <div id="intro" class="overlay intro">
+    <div class="intro-card">
+      <p class="eyebrow">A time machine through music epochs</p>
+      <h1 class="display">Kairos Engine</h1>
+      <p class="intro-lede serif">Chronos is the time you travel through. Kairos is the moment you arrive at: when someone's skill, their environment, and what the culture needed converge on one person, once.</p>
+      <p class="intro-body">Fly from the Baroque courts to the algorithm era and on into four forecast horizons. At every stop, the orrery shows the three forces that had to align, and the dossier names who stood in the beam.</p>
+      <div class="intro-actions">
+        <button id="engage" class="btn primary">Engage drive, with sound</button>
+        <button id="engageQuiet" class="btn ghost">Engage silently</button>
+      </div>
+      <p class="intro-keys mono">drag to look · ← → thrust · space brake · enter dock · [ ] step epochs · scroll for impulse</p>
+    </div>
+  </div>
+
+  <div id="theory" class="overlay modal" hidden>
+    <div class="modal-card glass"><button class="close" data-close aria-label="Close">×</button><div id="theoryBody" class="modal-body"></div></div>
+  </div>
+
+  <div id="help" class="overlay modal" hidden>
+    <div class="modal-card glass small"><button class="close" data-close aria-label="Close">×</button>
+      <div class="modal-body">
+        <p class="eyebrow">Controls</p>
+        <h2 class="display">Flying the drive</h2>
+        <ul class="keys">
+          <li><kbd>←</kbd> <kbd>→</kbd> or drag the throttle: thrust toward the past or the future. Release and you coast.</li>
+          <li><kbd>space</kbd> or <b>Brake</b>: thrust against your motion until you stop.</li>
+          <li><kbd>enter</kbd> or <b>Dock</b>: autopilot to the nearest epoch.</li>
+          <li><kbd>[</kbd> <kbd>]</kbd>: autopilot to the previous or next epoch. Clicking the timeline does the same for any year.</li>
+          <li>Mouse wheel over the view: a velocity impulse. Drag the view to look around.</li>
+          <li><kbd>m</kbd> sound · <kbd>t</kbd> theory · <kbd>esc</kbd> cancel autopilot or close a panel.</li>
+        </ul>
+        <p class="fine">Inside an epoch, select a Kairos case to align the orrery. Beyond 2026 the worlds flicker: that is the forecast uncertainty, rendered.</p>
+      </div>
+    </div>
+  </div>
+</div>

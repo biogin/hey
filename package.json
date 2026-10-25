@@ -1,0 +1,16 @@
+{
+  "name": "kairos-engine",
+  "version": "1.0.0",
+  "description": "An interactive 3D time machine through music epochs: travel Chronos, find Kairos.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "serve": "node build.mjs && npx -y serve dist -l 4173"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "three": "^0.170.0"
+  }
+}
