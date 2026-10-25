@@ -83,7 +83,8 @@ function boot() {
   let last = performance.now();
   function frame(now) {
     requestAnimationFrame(frame);
-    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    const rawDt = (now - last) / 1000; last = now;
+    const dt = Math.min(0.1, rawDt);           // for visual smoothing
     if (!started) { return; }
 
     // Held keys act as a throttle with a ramp
@@ -94,7 +95,7 @@ function boot() {
       chronos.setThrust(keyThrust); ui.setThrustVisual(keyThrust);
     }
 
-    chronos.update(dt);
+    chronos.update(Math.min(1, rawDt));      // physics catches up in fixed sub-steps
 
     // Docking detection
     const near = epochAt(chronos.year); state.nearest = near;

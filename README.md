@@ -24,7 +24,7 @@ npx serve dist     # or open dist/index.html directly
 ## Deploy
 
 - **Vercel:** import the repo; `vercel.json` sets the build command and output directory.
-- **GitHub Pages:** the workflow in `.github/workflows/pages.yml` builds and deploys on push.
+- **GitHub Pages:** the workflow in `.github/workflows/pages.yml` builds on push and publishes `dist/` to the `gh-pages` branch. If the site does not appear, enable Pages once under Settings → Pages with `gh-pages` as the branch.
 - **Anywhere else:** copy `dist/index.html`. It is self-contained apart from Google Fonts.
 
 ## Controls
