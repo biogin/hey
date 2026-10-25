@@ -5,7 +5,7 @@ import { build } from 'esbuild';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 
 const result = await build({
-  entryPoints: ['src/main.js'], bundle: true, minify: true, format: 'iife', target: ['es2020'], write: false, legalComments: 'none', logLevel: 'warning',
+  entryPoints: ['src/main.js'], bundle: true, minify: true, format: 'iife', target: ['es2020'], charset: 'utf8', write: false, legalComments: 'none', logLevel: 'warning',
 });
 const js = result.outputFiles[0].text;
 const css = readFileSync('styles.css', 'utf8');
